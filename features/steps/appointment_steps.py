@@ -39,3 +39,13 @@ def step_slot_remains_available(context, slot):
 @then('no booking should be created')
 def step_no_booking_created(context):
     assert context.service.bookings == {}
+
+@given('resident "{name}" has already booked the slot "{slot}"')
+def step_existing_booking(context, name, slot):
+    result = context.service.book(name, slot)
+    assert result == "Booking confirmed"
+
+
+@then('the booking for slot "{slot}" should belong to "{name}"')
+def step_booking_owner(context, slot, name):
+    assert context.service.bookings[slot] == name
