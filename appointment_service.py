@@ -7,6 +7,9 @@ class AppointmentService:
         if not isinstance(name, str) or not name.strip():
             return "Resident name is required"
 
+        if slot not in self.available_slots:
+            return "Appointment slot is unavailable"
+
         self.available_slots.remove(slot)
         self.bookings[slot] = name.strip()
         return "Booking confirmed"
