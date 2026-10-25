@@ -20,3 +20,22 @@ def step_booking_confirmed(context):
 @then('the slot "{slot}" should no longer be available')
 def step_slot_unavailable(context, slot):
     assert slot not in context.service.available_slots
+
+@when('a resident books the slot "{slot}" without a name')
+def step_book_without_name(context, slot):
+    context.result = context.service.book("", slot)
+
+
+@then('the booking should be rejected with "{message}"')
+def step_booking_rejected(context, message):
+    assert context.result == message
+
+
+@then('the slot "{slot}" should remain available')
+def step_slot_remains_available(context, slot):
+    assert slot in context.service.available_slots
+
+
+@then('no booking should be created')
+def step_no_booking_created(context):
+    assert context.service.bookings == {}
